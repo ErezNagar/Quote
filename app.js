@@ -1,8 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 
-var SpacecraftRouter = require("./Routers/SpacecraftRouter.js");
-
 var app = express();
 
 // app.use("/Spacecraft", SpacecraftRouter);
