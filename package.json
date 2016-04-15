@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "express": "4.13.4",
+    "body-parser": "1.15.0"
+
+  },
   "author": "Erez Nagar <erez.nagar@gmail.com>",
   "license": "ISC"
 }
