@@ -8,7 +8,8 @@ var app = express();
 var port = process.env.PORT || 8888;
 
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/", function (req, res) {
     console.log("Incoming...");
