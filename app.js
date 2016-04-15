@@ -12,10 +12,11 @@ app.use(bodyParser.json());
 
 app.post("/", function (req, res) {
     console.log("Incoming...");
-    console.log(req.body.text);
-    console.log(req.body.command);
-    console.log(req.body.token);
+    console.log(req);
     console.log(req.body);
+    console.log(req.body.token);
+    console.log(req.body.command);
+    console.log(req.body.text);
   res.send("Hello World!");
 });
 
