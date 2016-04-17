@@ -7,6 +7,9 @@ class CommandParser {
         this.delimiters = Definitions.ParserDelimiters;
 
         this.parseContext = function(text){
+            if (text.indexOf(":") == -1)
+                return null;
+
             if ((text = text.split(this.delimiters.CONTEXT)).length != 2)
                 return null;
 
@@ -42,7 +45,7 @@ class CommandParser {
     }
 
     parse(command) {
-        let quote, author, context;
+        let quote, author, context = "";
 
         if (!(quote = this.parseQuote(command)))
             return null;
@@ -50,8 +53,10 @@ class CommandParser {
         if (!(author = this.parseAuther(command, quote)))
             return null;
 
-        if ( !(command.indexOf(":")) || !(context = this.parseContext(command)))
-            return null;
+        if (command.indexOf(":") != -1){
+            if ( !(context = this.parseContext(command)) )
+                return null;
+        }
 
         return {
             quote: quote,
