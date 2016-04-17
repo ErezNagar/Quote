@@ -45,13 +45,13 @@ class CommandParser {
         let quote, author, context;
 
         if (!(quote = this.parseQuote(command)))
-            return;
+            return null;
 
         if (!(author = this.parseAuther(command, quote)))
-            return;
+            return null;
 
         if ( !(command.indexOf(":")) || !(context = this.parseContext(command)))
-            return;
+            return null;
 
         return {
             quote: quote,

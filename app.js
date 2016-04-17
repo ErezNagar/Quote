@@ -33,14 +33,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/", function (req, res) {
     console.log("Incoming slack quote...");
     if (req.body.token !== Definitions.Constants.APP_TOKEN){
-        console.error(Definitions.Constants.COMMAND_ERROR);
-        res.send(Definitions.Constants.COMMAND_ERROR + " " + Definitions.Constants.HELP);
+        console.error("unothorized");
+        res.send("unothorized");
         return;
     }
 
     //  route support, for example, adding user names, help
 
     var quoteData = commandParser.parse(req.body.text);
+    if (!quoteData){
+        console.error(Definitions.Constants.COMMAND_ERROR);
+        res.send(Definitions.Constants.COMMAND_ERROR + " " + Definitions.Constants.HELP);
+        return;
+    }
+
     quoteData.timestamp = Date.now(); //getCurrentDate();
 
     var firebase = new Firebase({
