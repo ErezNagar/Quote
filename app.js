@@ -11,27 +11,11 @@ commandParser = new commandParser();
 var app = express();
 var port = process.env.PORT || 8888;
 
-// var getCurrentDate = function(){
-//     var today = new Date();
-//     var dd = today.getDate();
-//     var mm = today.getMonth() + 1;
-//     var yyyy = today.getFullYear();
-//
-//     if (dd < 10)
-//         dd = "0" + dd;
-//
-//     if (mm < 10)
-//         mm = "0" + mm;
-//
-//     return mm + "/" + dd + "/" + yyyy;
-// };
-
-
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/", function (req, res) {
-    console.log("Incoming slack quote...");
+    console.log("Incoming slack quote v2...");
     if (req.body.token !== Definitions.Constants.APP_TOKEN){
         console.error("unothorized");
         res.send("unothorized");
