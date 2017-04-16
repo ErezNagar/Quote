@@ -31,7 +31,7 @@ QuoteApp.post("/", function (req, res) {
 
     quote.timestamp = Date.now();
 
-    quoteStore.push("/", quote)
+    quoteStore.push("/quotes", quote)
         .then(function(body){
             res.send(Quote.Constants.SUCCESS);
         }).fail( function(err){

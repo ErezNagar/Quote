@@ -1,11 +1,11 @@
 var definitions = {
     SLACK_TOKEN: "CfGFJR2diL9ao8ERLcdQNHL7",
     FIREBASE_TOKEN: "AIzaSyCNH-4sNfWmFLYbA-PXI3eeC467N9TEzQE",
-    FIREBASE_URL: "https://ledgex-quote.firebaseio.com",
+    FIREBASE_URL: "https://ledgex-quote.firebaseio.com/",
 }
 
 var constants = {
-    HELP: '/quote "{quote}" by {author} [: quote context]"',
+    HELP: '/quote "{quote}" by {author}"',
 
     UNAUTHORIZED: "Unauthorized.",
     COMMAND_ERROR: "Hmmm, seems like the command is wrong.",
