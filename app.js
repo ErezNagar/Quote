@@ -2,18 +2,17 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var Firebase = require("firebase-client");
 var Quote = require("./quote");
-var commandParser = require("./commandParser");
+var Parser = require("./parser");
 
 var quoteStore = new Firebase({
     url: Quote.Definitions.FIREBASE_URL,
     auth: Quote.Definitions.FIREBASE_TOKEN
 });
 
-commandParser = new commandParser();
+Parser = new Parser();
 
 var QuoteApp = express();
 
-// QuoteApp.use(bodyParser.json());
 QuoteApp.use(bodyParser.urlencoded({ extended: true }));
 
 QuoteApp.post("/", function (req, res) {
@@ -23,7 +22,7 @@ QuoteApp.post("/", function (req, res) {
         return;
     }
 
-    var quote = commandParser.parse(req.body.text);
+    var quote = Parser.parseCommand(req.body.text);
     if (!quote){
         console.error(Quote.Constants.COMMAND_ERROR);
         res.send(Quote.Constants.COMMAND_ERROR + " " + Quote.Constants.HELP);

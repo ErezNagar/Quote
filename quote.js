@@ -14,12 +14,9 @@ var constants = {
     SUCCESS: "All set. Quote saved successfuly."
 }
 
-var parserDelimiters = require("./parserDelimiters");
-
 var Quote = {
     Definitions: definitions,
     Constants: constants,
-    ParserDelimiters: parserDelimiters
 }
 
 module.exports = Quote;
