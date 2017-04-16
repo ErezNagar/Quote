@@ -32,23 +32,37 @@ class CommandParser {
             return author.trim();
         };
 
-        this.parseQuote = function(quote){
-            if (quote.replace(/[^/"]/g, "").length != 2)
+        this.getQuote = function(command){
+            console.log("command:");
+            console.log(command);
+
+            console.log("command.replace(/[^/']/g, ''):");
+            console.log(command.replace(/[^/"]/g, ""));
+
+            if (command.replace(/[^/"]/g, "").length != 2)
                 return null;
 
-            let quoteData = quote.split(this.delimiters.QUOTE);
-            quoteData.shift();
-            if (quoteData[0].length == 0)
+            let quote = command.split(this.delimiters.QUOTE);
+
+            console.log("quote:");
+            console.log(quote);
+
+            quote.shift();
+
+            console.log("quote.shift():");
+            console.log(quote);
+
+            if (quote[0].length == 0)
                 return null;
 
-            return quoteData[0].replace('"', ' ');
+            return quote[0].replace('"', ' ');
         };
     }
 
     parse(command) {
         let quote, author, context = "";
 
-        if (!(quote = this.parseQuote(command)))
+        if (!(quote = this.getQuote(command)))
             return null;
 
         if (!(author = this.parseAuther(command, quote)))

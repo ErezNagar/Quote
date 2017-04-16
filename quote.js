@@ -14,7 +14,6 @@ var constants = {
     SUCCESS: "All set. Quote saved successfuly."
 }
 
-// var constants = require("./constants");
 var parserDelimiters = require("./parserDelimiters");
 
 var Quote = {

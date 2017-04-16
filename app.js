@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var Firebase = require('firebase-client');
+var Firebase = require("firebase-client");
 var Quote = require("./quote");
 var commandParser = require("./commandParser");
 
@@ -8,8 +8,6 @@ var quoteStore = new Firebase({
     url: Quote.Definitions.FIREBASE_URL,
     auth: Quote.Definitions.FIREBASE_TOKEN
 });
-// const Firebase = require('firebase');
-// var Firebase = require("Firebase");
 
 commandParser = new commandParser();
 
