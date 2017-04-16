@@ -29,7 +29,7 @@ QuoteApp.post("/", function (req, res) {
         return;
     }
 
-    quote.timestamp = Date.now(); //getCurrentDate();
+    quote.timestamp = Date.now();
 
     quoteStore.push("/quotes", quote)
         .then(function(body){

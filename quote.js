@@ -1,6 +1,6 @@
 var definitions = {
     SLACK_TOKEN: "CfGFJR2diL9ao8ERLcdQNHL7",
-    FIREBASE_TOKEN: "LeTUNxwGc03CdCj61oh5cFKuRRnXu23ATbVuZjl8",
+    FIREBASE_TOKEN: "AIzaSyCNH-4sNfWmFLYbA-PXI3eeC467N9TEzQE",
     FIREBASE_URL: "https://funnycss.firebaseio.com",
 }
 
