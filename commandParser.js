@@ -1,10 +1,11 @@
-var Definitions = require("./definitions");
+"use strict";
+var Quote = require("./quote");
 
 class CommandParser {
     // /quote "{quote}" by {author} [: quote context]
 
     constructor() {
-        this.delimiters = Definitions.ParserDelimiters;
+        this.delimiters = Quote.ParserDelimiters;
 
         this.parseContext = function(text){
             if (text.indexOf(":") == -1)
