@@ -5,8 +5,8 @@ var Quote = require("./quote");
 var Parser = require("./parser");
 
 var quoteStore = new Firebase({
-    url: Quote.Definitions.FIREBASE_URL,
-    auth: Quote.Definitions.FIREBASE_TOKEN
+    // auth: Quote.Definitions.FIREBASE_TOKEN,
+    url: Quote.Definitions.FIREBASE_URL
 });
 
 Parser = new Parser();
@@ -16,6 +16,7 @@ var QuoteApp = express();
 QuoteApp.use(bodyParser.urlencoded({ extended: true }));
 
 QuoteApp.post("/", function (req, res) {
+    console.log(req.body);
     if (req.body.token !== Quote.Definitions.SLACK_TOKEN){
         console.error(Quote.Constants.UNAUTHORIZED);
         res.send(Quote.Constants.UNAUTHORIZED);
@@ -31,7 +32,7 @@ QuoteApp.post("/", function (req, res) {
 
     quote.timestamp = Date.now();
 
-    quoteStore.push("/", quote)
+    quoteStore.push("/quotes", quote)
         .then(function(body){
             res.send(Quote.Constants.SUCCESS);
         }).fail( function(err){
