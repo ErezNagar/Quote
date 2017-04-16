@@ -8,15 +8,11 @@ var delimiters = {
 class Parser {
     constructor() {
         this.getQuote = function(command){
-            console.log(command);
             if (command.replace(/[^/"]/g, "").length !== 2)
                 return null;
 
             let quote = command.split(delimiters.QUOTE);
-
-            console.log(quote);
-
-            if (quote[0].length !== 3)
+            if (quote.length !== 3)
                 return null;
 
             quote.shift();
@@ -24,7 +20,6 @@ class Parser {
             if (quote[0].length === 0)
                 return null;
 
-            console.log(quote[0]);
             return quote[0];
         };
 
