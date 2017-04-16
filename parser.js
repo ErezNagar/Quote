@@ -20,6 +20,7 @@ class Parser {
             if (quote[0].length === 0)
                 return null;
 
+            console.log(quote[0]);
             return quote[0];
         };
 
