@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ErezNagar">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Things Ledgex people say</title>
+</head>
+
+<body class="grey lighten-4">
+    <header>
+        <div>
+            <div id="p"></div>
+            <h1>Things Ledgex people say</h1>
+            <p class="description">An experiment with Slack API</p>
+            <p class="version">v0.0.1</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <main id="quote-app"></main>
+    </div>
+
+    <script src="https://use.fontawesome.com/405c307f4d.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.6/firebase.js"></script>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCNH-4sNfWmFLYbA-PXI3eeC467N9TEzQE",
+        databaseURL: "https://ledgex-quote.firebaseio.com"
+      });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <!-- <script src="C:\Users\erezn_000\Desktop\YouTubeProgressBar.js"></script> -->
+
+    <script src="https://fb.me/react-15.0.1.min.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.min.js"></script>
+    <script type="text/babel" src="teamQuote.js"></script>
+</body>
+</html>
