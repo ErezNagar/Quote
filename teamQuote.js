@@ -107,7 +107,9 @@ class QuoteList extends React.Component {
         var fetchSize = this.props.pageSize * (this.state.page + 1);
 
         firebase.database().ref("/quotes").limitToLast(fetchSize).once("value").then(data => {
-            if (this.state.quotes.length === data.numChildren()){
+            var dataCount = data.numChildren()
+
+            if (this.state.quotes.length === dataCount){
                 this.setState({endOfData: true});
                 return;
             }
@@ -116,18 +118,19 @@ class QuoteList extends React.Component {
             if (data == null)
                 console.log("error");
 
-            this.addQuotes(data);
+            this.addQuotes(data, dataCount);
         }.bind(this));
     }
 
-    addQuotes(data){
+    addQuotes(data, dataCount){
         var i = 0,
             page = this.state.page + 1,
             newQuotes = [];
 
         // Order quotes from newest to oldest
+        var newQuotesCount = (dataCount % this.props.pageSize) || this.props.pageSize;
         for (var quoteKey in data){
-            if (i == this.props.pageSize)
+            if (i == newQuotesCount)
                 break;
 
             data[quoteKey].bgColor1 = this.props.quoteColors[Math.floor(Math.random() * colors.length)];
@@ -139,6 +142,7 @@ class QuoteList extends React.Component {
 
         var quotes = this.state.quotes;
         quotes.push(...newQuotes);
+
         this.setState({quotes: quotes, page: page++});
     }
 }
@@ -151,4 +155,4 @@ QuoteList.propTypes = {
 var colors = ["#b71c1c", "#c62828", "#d32f2f", "#e53935", "#d81b60",
               "#c2185b", "#ad1457", "#880e4f", "#8e24aa", "#7b1fa2",
               "#6a1b9a", "#4a148c"];
-ReactDOM.render(<QuoteList pageSize={2} quoteColors={colors} />, document.getElementById("quote-app"));
+ReactDOM.render(<QuoteList pageSize={10} quoteColors={colors} />, document.getElementById("quote-app"));
