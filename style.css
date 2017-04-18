@@ -7,7 +7,6 @@ header{
     height: 80%;
     width: 100%;
     text-align: center;
-    background: transparent url("http://wearegoingtothemoon.com/img/header-bg.jpg") no-repeat center;
     background-color: #232C39;
     background-image:         linear-gradient(45deg, rgba(0, 216, 255, .5), rgba(0, 255, 127,.5));
     padding-top: 10%;
@@ -70,13 +69,11 @@ header h1{
 }
 
 .loader {
-    color: black;
-    text-align: center;
-    font-family: "Roboto", sans-serif;
-    font-size: 1.5em;
-    padding: 2em 0;
-    opacity: .7;
-    animation: pulse 0.4s alternate infinite ease-in-out;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 5px;
+    width: 100%;
 }
 
 @keyframes pulse {

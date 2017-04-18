@@ -1,3 +1,58 @@
+class SkinnyProgressBar {
+    constructor(options){
+        this.options = options || {};
+
+        this.options.el = this.options.el ? this.options.el : "body";
+        this.options.color = this.options.color ? this.options.color : "#01579B";
+
+        this.model = {
+            el: this.options.el,
+            value: 0,
+            options: this.options
+        };
+
+        this.progressBar = $("<div id='skinny-progress-bar'></div>");
+        this.progressBar.css({
+            "z-index": "99999",
+            "height": "3px",
+            "width": "0",
+            "background-color": this.options.color,
+            "opacity": "1",
+            "border-top-right-radius": "4px",
+            "border-bottom-right-radius": "4px",
+            "transition": "width 200ms, opacity 500ms"
+        });
+
+        if (this.model.el == "body")
+            $(this.model.el).prepend(this.progressBar);
+        else
+            $(this.model.el).append(this.progressBar);
+    }
+
+    load(value) {
+        this.model.value = value;
+        this.progressBar.css("width", this.model.value + "%");
+
+        if (this.model.value == 100)
+            this.reset();
+    }
+
+    reset() {
+        this.model.value = 0;
+
+        var self = this;
+        setTimeout(() => {
+            self.progressBar.css("opacity", 0);
+            setTimeout(() => {
+                self.progressBar.css("width", self.model.value + "%");
+                setTimeout(() => {
+                    self.progressBar.css("opacity", 1);
+                }, 200);
+            }, 500);
+        }, 200);
+    }
+}
+
 class QuoteCard extends React.Component {
     timestampToDate(timestamp) {
         var date = new Date(timestamp);
@@ -52,6 +107,11 @@ class QuoteList extends React.Component {
     }
 
     componentDidMount() {
+        this.loader = new SkinnyProgressBar({
+            el: ".loader",
+            color: "#11839b"
+        });
+
         this.fetch();
 
         var page = $(document);
@@ -82,13 +142,6 @@ class QuoteList extends React.Component {
     }
 
     render() {
-        if (this.state.quotes.length == 0)
-            return (
-                <div className="loader">
-                    Loading...
-                </div>
-            );
-
         if (this.state.endOfData)
             return (
                 <div>
@@ -104,31 +157,42 @@ class QuoteList extends React.Component {
 
     // Utils
     fetch() {
+        this.loader.load(10);
         var fetchSize = this.props.pageSize * (this.state.page + 1);
 
         firebase.database().ref("/quotes").limitToLast(fetchSize).once("value").then(data => {
-            if (this.state.quotes.length === data.numChildren()){
+            this.loader.load(20);
+            var dataCount = data.numChildren()
+
+            if (this.state.quotes.length === dataCount){
+                this.loader.load(100);
                 this.setState({endOfData: true});
                 return;
             }
 
             data = data.val();
-            if (data == null)
+            if (data == null){
+                this.loader.load(100);
                 console.log("error");
+                return;
+            }
 
-            this.addQuotes(data);
+            this.addQuotes(data, dataCount);
         }.bind(this));
     }
 
-    addQuotes(data){
+    addQuotes(data, dataCount){
         var i = 0,
             page = this.state.page + 1,
             newQuotes = [];
 
         // Order quotes from newest to oldest
+        var newQuotesCount = (dataCount % this.props.pageSize) || this.props.pageSize;
         for (var quoteKey in data){
-            if (i == this.props.pageSize)
+            if (i == newQuotesCount)
                 break;
+
+            this.loader.load(((i / newQuotesCount) * 100 / 80));
 
             data[quoteKey].bgColor1 = this.props.quoteColors[Math.floor(Math.random() * colors.length)];
             data[quoteKey].bgColor2 = this.props.quoteColors[Math.floor(Math.random() * colors.length)];
@@ -139,7 +203,9 @@ class QuoteList extends React.Component {
 
         var quotes = this.state.quotes;
         quotes.push(...newQuotes);
+
         this.setState({quotes: quotes, page: page++});
+        this.loader.load(100);
     }
 }
 
@@ -151,4 +217,4 @@ QuoteList.propTypes = {
 var colors = ["#b71c1c", "#c62828", "#d32f2f", "#e53935", "#d81b60",
               "#c2185b", "#ad1457", "#880e4f", "#8e24aa", "#7b1fa2",
               "#6a1b9a", "#4a148c"];
-ReactDOM.render(<QuoteList pageSize={2} quoteColors={colors} />, document.getElementById("quote-app"));
+ReactDOM.render(<QuoteList pageSize={100} quoteColors={colors} />, document.getElementById("quote-app"));
