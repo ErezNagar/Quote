@@ -1,57 +1,9 @@
-class SkinnyProgressBar {
-    constructor(options){
-        this.options = options || {};
+'use strict';
 
-        this.options.el = this.options.el ? this.options.el : "body";
-        this.options.color = this.options.color ? this.options.color : "#01579B";
-
-        this.model = {
-            el: this.options.el,
-            value: 0,
-            options: this.options
-        };
-
-        this.progressBar = $("<div id='skinny-progress-bar'></div>");
-        this.progressBar.css({
-            "z-index": "99999",
-            "height": "3px",
-            "width": "0",
-            "background-color": this.options.color,
-            "opacity": "1",
-            "border-top-right-radius": "4px",
-            "border-bottom-right-radius": "4px",
-            "transition": "width 200ms, opacity 500ms"
-        });
-
-        if (this.model.el == "body")
-            $(this.model.el).prepend(this.progressBar);
-        else
-            $(this.model.el).append(this.progressBar);
-    }
-
-    load(value) {
-        this.model.value = value;
-        this.progressBar.css("width", this.model.value + "%");
-
-        if (this.model.value == 100)
-            this.reset();
-    }
-
-    reset() {
-        this.model.value = 0;
-
-        var self = this;
-        setTimeout(() => {
-            self.progressBar.css("opacity", 0);
-            setTimeout(() => {
-                self.progressBar.css("width", self.model.value + "%");
-                setTimeout(() => {
-                    self.progressBar.css("opacity", 1);
-                }, 200);
-            }, 500);
-        }, 200);
-    }
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import * as Firebase from "firebase";
+import SkinnyProgressBar from "./skinnyProgressBar";
 
 class QuoteCard extends React.Component {
     timestampToDate(timestamp) {
@@ -99,6 +51,13 @@ class QuoteCard extends React.Component {
 class QuoteList extends React.Component {
     constructor(props) {
         super(props);
+
+        Firebase.initializeApp({
+            apiKey: "AIzaSyCNH-4sNfWmFLYbA-PXI3eeC467N9TEzQE",
+            databaseURL: "https://ledgex-quote.firebaseio.com"
+        });
+        this.database = Firebase.database().ref("/quotes");
+
         this.state = {
             quotes: [],
             page: 0,
@@ -115,13 +74,14 @@ class QuoteList extends React.Component {
         this.fetch();
 
         var page = $(document);
+        var self = this;
         $(window).scroll(() => {
-            if (this.state.endOfData)
+            if (self.state.endOfData)
                 return;
 
             if (page.scrollTop() + $(document.body).height() >= page.height())
-                this.fetch();
-        }.bind(this));
+                self.fetch();
+        });
     }
 
     // Views
@@ -159,26 +119,27 @@ class QuoteList extends React.Component {
     fetch() {
         this.loader.load(10);
         var fetchSize = this.props.pageSize * (this.state.page + 1);
+        var self = this;
 
-        firebase.database().ref("/quotes").limitToLast(fetchSize).once("value").then(data => {
-            this.loader.load(20);
+        this.database.limitToLast(fetchSize).once("value").then(data => {
+            self.loader.load(20);
             var dataCount = data.numChildren()
 
             if (this.state.quotes.length === dataCount){
-                this.loader.load(100);
-                this.setState({endOfData: true});
+                self.loader.load(100);
+                self.setState({endOfData: true});
                 return;
             }
 
             data = data.val();
             if (data == null){
-                this.loader.load(100);
+                self.loader.load(100);
                 console.log("error");
                 return;
             }
 
-            this.addQuotes(data, dataCount);
-        }.bind(this));
+            self.addQuotes(data, dataCount);
+        });
     }
 
     addQuotes(data, dataCount){
