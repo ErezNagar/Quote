@@ -178,4 +178,4 @@ QuoteList.propTypes = {
 var colors = ["#b71c1c", "#c62828", "#d32f2f", "#e53935", "#d81b60",
               "#c2185b", "#ad1457", "#880e4f", "#8e24aa", "#7b1fa2",
               "#6a1b9a", "#4a148c"];
-ReactDOM.render(<QuoteList pageSize={50} quoteColors={colors} />, document.getElementById("quote-app"));
+ReactDOM.render(<QuoteList pageSize={10} quoteColors={colors} />, document.getElementById("quote-app"));
