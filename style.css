@@ -17,6 +17,12 @@ header h1{
     padding: 0;
 }
 
+.description{
+    margin-top: 3em;
+    font-size: 1.5em;
+    opacity: .5;
+}
+
 .container{
     width: 50%
 }
