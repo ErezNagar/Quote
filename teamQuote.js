@@ -56,7 +56,7 @@ class QuoteList extends React.Component {
             apiKey: "AIzaSyCNH-4sNfWmFLYbA-PXI3eeC467N9TEzQE",
             databaseURL: "https://ledgex-quote.firebaseio.com"
         });
-        this.database = Firebase.database().ref("/quotes");
+        this.database = Firebase.database().ref("/quotesTest");
 
         this.state = {
             quotes: [],
