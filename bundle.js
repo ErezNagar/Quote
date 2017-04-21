@@ -9717,7 +9717,7 @@ var QuoteList = function (_React$Component2) {
             apiKey: "AIzaSyCNH-4sNfWmFLYbA-PXI3eeC467N9TEzQE",
             databaseURL: "https://ledgex-quote.firebaseio.com"
         });
-        _this2.database = Firebase.database().ref("/quotesTest");
+        _this2.database = Firebase.database().ref("/quotes");
 
         _this2.state = {
             quotes: [],
